@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Box Cricket Ground - Team Setup</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #023b34;
+      color: white;
+    }
+    .player-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      margin: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: bounceIn 0.8s;
+    }
+    .player-box:hover {
+      transform: scale(1.1);
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    .field-diagram {
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      height: 400px;
+      margin: 40px auto;
+      background-color: #28a745;
+      border: 2px solid white;
+      border-radius: 20px;
+    }
+    .positioned-player {
+      position: absolute;
+      padding: 5px 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: black;
+      border-radius: 5px;
+      font-weight: bold;
+      transform: translate(-50%, -50%);
+      animation: fadeInUp 1s ease;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translate(-50%, 20%); }
+      100% { opacity: 1; transform: translate(-50%, -50%); }
+    }
+    .btn-toggle {
+      margin: 10px;
+    }
+    .icon {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container text-center py-5">
+    <h1 class="mb-4">Tech Super Kings-Setup</h1>
+
+    <!-- Buttons to show different sections -->
+    <div class="mb-4">
+      <button class="btn btn-warning btn-toggle" onclick="toggleSection('playerName')">Player Name</button>
+      <button class="btn btn-primary btn-toggle" onclick="toggleSection('groundSetup')">Ground Setup</button>
+      <button class="btn btn-warning btn-toggle" onclick="toggleSection('battingOrder')">Batting Order</button>
+      <button class="btn btn-info btn-toggle" onclick="toggleSection('bowlingOrder')">Bowling Order</button>
+    </div>
+
+    <!-- Player Name Section -->
+    <div id="playerName" class="section collapse">
+      <div class="row justify-content-center" id="teamContainer"></div>
+    </div>
+
+    <!-- Ground Setup Section -->
+    <div id="groundSetup" class="section collapse">
+      <div class="field-diagram" id="fieldDiagram"></div>
+    </div>
+
+    <!-- Batting Order Section -->
+    <div id="battingOrder" class="section collapse">
+      <h2>Batting Order</h2>
+      <p><strong>Target Score:</strong> 50+</p>
+      <ul class="list-unstyled">
+        <li><strong>Openers:</strong> <i class="fas fa-bat icon"></i> Anas, Kartik / Satya</li>
+        <li><strong>1st Down:</strong> <i class="fas fa-bat icon"></i> Raber</li>
+        <li><strong>Middle Order:</strong> <i class="fas fa-bat icon"></i> Rashol, Manoj, Pinku</li>
+        <li><strong>Last:</strong> <i class="fas fa-bat icon"></i> Tanu</li>
+      </ul>
+    </div>
+
+    <!-- Bowling Order Section -->
+    <div id="bowlingOrder" class="section collapse">
+      <h2>Bowling Order (5 Over Match)</h2>
+      <p><strong>Target Score:</strong> Below 35</p>
+      <ol class="text-start d-inline-block">
+        <li><i class="fas fa-bowl-ball icon"></i> Satya</li>
+        <li><i class="fas fa-bowl-ball icon"></i> Rashol</li>
+        <li><i class="fas fa-bowl-ball icon"></i> Manoj</li>
+        <li><i class="fas fa-bowl-ball icon"></i> Raber / Kartik</li>
+        <li><i class="fas fa-bowl-ball icon"></i> Tanu</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    const players = ["Satya (C)", "Raber (Vc)", "Rashol", "Kartik", "Pinku", "Manoranjan", "Tanu", "Anas"];
+    const fieldPositions = [
+      { name: "Satya(C)", top: "30%", left: "50%" },
+      { name: "Tanu(Bowl/Keeper)", top: "80%", left: "50%" },
+      { name: "Raber(All)", top: "50%", left: "15%" },
+      { name: "Pinku(All)", top: "60%", left: "25%" },
+      { name: "Kartik(All)", top: "50%", left: "85%" },
+      { name: "Anas(Bat)", top: "60%", left: "75%" },
+      { name: "Rashol(All)", top: "10%", left: "25%" },
+      { name: "Manoranjan(All)", top: "10%", left: "75%" }
+    ];
+
+    // Function to render player names
+    function renderPlayers() {
+      const container = document.getElementById('teamContainer');
+      container.innerHTML = '';
+      players.forEach(player => {
+        const div = document.createElement('div');
+        div.className = 'col-6 col-md-3 player-box';
+        div.innerText = player;
+        div.onclick = () => alert(`Details for ${player}: Coming soon...`);
+        container.appendChild(div);
+      });
+    }
+
+    // Function to render field setup
+    function renderField() {
+      const field = document.getElementById('fieldDiagram');
+      field.innerHTML = '';
+      fieldPositions.forEach(pos => {
+        const div = document.createElement('div');
+        div.className = 'positioned-player';
+        div.style.top = pos.top;
+        div.style.left = pos.left;
+        div.innerText = pos.name;
+        field.appendChild(div);
+      });
+    }
+
+    // Function to toggle visibility of sections
+    function toggleSection(section) {
+      const sections = ['playerName', 'groundSetup', 'battingOrder', 'bowlingOrder'];
+      sections.forEach(sec => {
+        const secElement = document.getElementById(sec);
+        if (sec === section) {
+          secElement.classList.toggle('collapse'); // Toggle the section clicked
+        } else {
+          secElement.classList.add('collapse'); // Hide other sections
+        }
+      });
+    }
+
+    // Initial rendering of player names and field
+    renderPlayers();
+    renderField();
+  </script>
+</body>
+</html>
